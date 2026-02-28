@@ -1,84 +1,50 @@
-import { GameHeader } from "./Components/GameHeader";
 import { Card } from "./Components/Card";
-import { useEffect, useState } from "react";
-
+import { GameHeader } from "./Components/GameHeader";
+import { WinMessage } from "./Components/WinMessage";
+import { useGameLogic } from "../../Hooks/useGameLogic";
 
 const cardValues = [
-  "🍒",
-  "🍓",
+  "🍎",
   "🍌",
   "🍇",
-  "🍋",
   "🍊",
-  "🍉",
-  "🍍",
-  "🍒",
   "🍓",
+  "🥝",
+  "🍑",
+  "🍒",
+  "🍎",
   "🍌",
   "🍇",
-  "🍋",
   "🍊",
-  "🍉",
-  "🍍"
-] // Array for Card Values
-
+  "🍓",
+  "🥝",
+  "🍑",
+  "🍒",
+];
 
 function App() {
-  const [cards, setCards] = useState([]); // keep track of cards by using a state
+  const {
+    cards,
+    score,
+    moves,
+    handleCardClick,
+    initializeGame,
+    isGameComplete,
+  } = useGameLogic(cardValues);
 
-  const initializeGame = () => {
-    // Shuffle the cards
+  return (
+    <div className="app">
+      <GameHeader score={score} moves={moves} onReset={initializeGame} />
 
+      {isGameComplete && <WinMessage moves={moves} />}
 
-    const finalCards = cardValues.map((value, index) => ( //value:fruit, index: position
-
-      {
-        id: index,
-        value,
-        isFlipped: false,
-        isMatched: false
-      }));
-
-    setCards(finalCards);
-  };
-  useEffect(() => {
-    initializeGame();
-
-  }, [])
-
-
-  const handleCardClick = (card) => {
-    // dont allow clicking if the card is already flipped
-    if (card.isFlipped || card.isMatched) {
-      return;
-    }
-
-    // update card flipped state
-
-    const newCards = cards.map((c) => {
-      if (c.id === card.id) {
-        return { ...c, isFlipped: true } // making the flip transition
-      } else {
-        return c;
-      }
-    });
-
-    setCards(newCards);
-
-  };
-
-  return (<div className="app"><GameHeader />
-
-    <div className="cards-grid">
-      {cards.map((card) => (
-        // loops through the array
-        <Card card={card} onClick={handleCardClick} /> // pass the card value
-      ))}
+      <div className="cards-grid">
+        {cards.map((card) => (
+          <Card key={card.id} card={card} onClick={handleCardClick} />
+        ))}
+      </div>
     </div>
-  </div>
-
   );
-};
-
+}
 
 export default App;
