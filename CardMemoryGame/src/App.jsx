@@ -47,12 +47,32 @@ function App() {
   }, [])
 
 
+  const handleCardClick = (card) => {
+    // dont allow clicking if the card is already flipped
+    if (card.isFlipped || card.isMatched) {
+      return;
+    }
+
+    // update card flipped state
+
+    const newCards = cards.map((c) => {
+      if (c.id === card.id) {
+        return { ...c, isFlipped: true } // making the flip transition
+      } else {
+        return c;
+      }
+    });
+
+    setCards(newCards);
+
+  };
+
   return (<div className="app"><GameHeader />
 
     <div className="cards-grid">
       {cards.map((card) => (
         // loops through the array
-        <Card card={card} /> // pass the card value
+        <Card card={card} onClick={handleCardClick} /> // pass the card value
       ))}
     </div>
   </div>
