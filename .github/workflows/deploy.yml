@@ -3,36 +3,29 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+    permissions:
+      contents: write
       
+    steps:
+    - uses: actions/checkout@v4
+    
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
         
-    - name: Install dependencies
-      run: cd CardMemoryGame && npm install
-      
-    - name: Build
-      run: cd CardMemoryGame && npm run build
-      
-    - name: Deploy to GitHub Pages
+    - name: Install and Build
+      run: |
+        cd CardMemoryGame
+        npm install
+        npm run build
+        
+    - name: Deploy
       uses: peaceiris/actions-gh-pages@v4
-      if: github.ref == 'refs/heads/main'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./CardMemoryGame/dist
