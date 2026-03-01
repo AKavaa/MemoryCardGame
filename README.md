@@ -29,3 +29,4 @@ The objective is simple: click each card only once. After every selection, the c
 	•	Clean and maintainable frontend structure
 
   
+🃏 Play the Game Here: https://akavaa.github.io/MemoryCardGame/
