@@ -1,4 +1,4 @@
-🧠 Memory Card Game (React)
+🧠 Memory Card Game (ReactJS)
 
 A dynamic and interactive Memory Card Game built with React.js, focused on clean component architecture, efficient state management, and scalable UI logic.
 
